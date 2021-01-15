@@ -40,7 +40,7 @@ function setup() {
 
 function preload() {
 
-  loud = loadStrings("loud30.txt");
+  loud = loadStrings("yourseries.txt");
 
 }
 
@@ -74,9 +74,9 @@ function draw() {
   }
 
   //debug
-  stroke(255);
-  text(int(frameCount/30), -500, 50);
-  text(int(frameRate()), -500, 40);
+  //stroke(255);
+  //text(int(frameCount/30), -500, 50); //display seconds
+  //text(int(frameRate()), -500, 40); //display framerate
 
   // if (capturer) {
   //   capturer.capture(document.getElementById("defaultCanvas0"));
