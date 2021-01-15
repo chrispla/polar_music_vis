@@ -1,8 +1,3 @@
-// Daniel Shiffman
-// http://codingtra.in
-// http://patreon.com/codingtrain
-// Code for: https://youtu.be/h_aTgOl9J5I
-
 // let capturer;
 // let btn;
 // function record() {
@@ -22,16 +17,16 @@
 // }
 
 var amplitudes;
-
-
-
+var x;
+var y;
+var r;
 var volhistory = [];
 
 function setup() {
 
   createCanvas(1920, 1080);
 
-  frameRate(30);
+  frameRate(60);
 
   angleMode(DEGREES);
 
@@ -45,7 +40,7 @@ function setup() {
 
 function preload() {
 
-  loud = loadStrings("loudness.txt");
+  loud = loadStrings("loud30.txt");
 
 }
 
@@ -56,41 +51,32 @@ function draw() {
   background(0);
   stroke(255);
 
-  //Have an array of 360 elements, updated every frame
-
-  //push 1 vol to vol_history
-  volhistory.push(amplitudes[frameCount]);
-  //if after 360 frames, remove first entry
-  if (frameCount > 360) {
+  //Have an array of 360 elements, add next element
+  volhistory.push(loud[frameCount]);
+  //and remove first entry
+  if (frameCount > 361) { //remove only after initially filled
     volhistory.shift();
   }
   
-  //stroke(77, 89, 79);
   noFill();
+  translate(width / 2, height / 2); //move to the middle of screen
 
-  translate(width / 2, height / 2);
-
-  for (var j=20; j < 30; j++) {
-    stroke(255*((50-j)/50));
-
+  for (var j=1; j < 70; j++) {
+    stroke(255*((70-j)/70)); //stroke fade based on radius
     beginShape();
-    for (var i = 0; i < 360; i++) {
-      var r = map(volhistory[i], 0, 1, 100+(5*j), 300+(25*j)); //normal mapping [0,1]
-      var x = r * cos(i);
-      var y = r * sin(i);
+    for (var i = 0; i < 361; i++) {
+      r = map(volhistory[i], 0, 1, (5*j), 400+(40*j)); //normal mapping [0,1]
+      x = r * cos(i);
+      y = r * sin(i);
       vertex(x, y);
     }
     endShape();
   }
 
+  //debug
   stroke(255);
-  text(frameCount%360, 0, 0);
-  text(amplitudes[frameCount], 0, 10);
-
-
-  //if (volhistory.length > 360) {
-  //  volhistory.splice(0, 1);
-  //}
+  text(int(frameCount/30), -500, 50);
+  text(int(frameRate()), -500, 40);
 
   // if (capturer) {
   //   capturer.capture(document.getElementById("defaultCanvas0"));
